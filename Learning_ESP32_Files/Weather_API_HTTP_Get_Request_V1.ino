@@ -7,7 +7,7 @@ const char* password = "";
 
 void setup() {
 
-
+  pinMode(LED_PIN, OUTPUT);
 
   Serial.begin(115200);
   delay(4000);
@@ -26,7 +26,8 @@ void setup() {
 
 void loop() {
   if ((WiFi.status() == WL_CONNECTED)) {
-
+    digitalWrite(LED_PIN, HIGH);
+    
     HTTPClient http;
 
     http.begin("Insert HTTP Here");
@@ -49,8 +50,9 @@ void loop() {
   }
   else {
     Serial.println("WiFi Connection Lost");
-
+    digitalWrite(LED_PIN, LOW);
   }
 
+  digitalWrite(LED_PIN, LOW);
   delay(60000);
 }
