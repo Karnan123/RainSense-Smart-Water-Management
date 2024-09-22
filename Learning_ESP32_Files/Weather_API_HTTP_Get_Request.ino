@@ -26,7 +26,7 @@ void loop() {
 
     HTTPClient http;
 
-    http.begin("https://api.openweathermap.org/data/2.5/forecast?lat=43.900434675408164&lon=-78.94374974444652&appid=8bad9ee0580bfd7f63cd45c54a2050bf");
+    http.begin("Your HTTP Request Here");
 
     int httpCode = http.GET();
 
