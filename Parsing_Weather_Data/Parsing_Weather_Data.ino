@@ -67,7 +67,7 @@ void loop() {
     // Serial.print("Weather Data: ");
     // Serial.println(myWeatherData);
     Serial.print("Temperature: ");
-    Serial.println(myWeatherData["main"]["temp"]);
+    Serial.println(myWeatherData["list"][0]["main"]["temp"]);
 
   }
   else {
