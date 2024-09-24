@@ -1,11 +1,14 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <Arduino_JSON.h>
+#include <WebServer.h>
 
 const char* ssid = "";
 const char* password = "";
 const int LED_PIN = 2;
 String weatherRawData;
+
+WebServer server(80);
 
 void setup() {
 
@@ -24,6 +27,11 @@ void setup() {
   Serial.print("Connected to WiFi Network");
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+
+  server.on("/data", HTTP_GET, handleData);
+
+  server.begin();
+  Serial.print("Server Begins");
 }
 
 String httpGETRequest(const char* weatherLink) {
@@ -48,7 +56,19 @@ String httpGETRequest(const char* weatherLink) {
   return weatherData;
 }
 
+void handleData() {
+
+  jsonDoc["API Data"] = weatherRawData;
+
+  String weatherString;
+  serializeJson(weatherRawData, weatherString);
+
+  server.sendHeader("Content-Type", "application/json");
+  server.send(200, "application/json", weatherString);
+}
+
 void loop() {
+  
   if ((WiFi.status() == WL_CONNECTED)) {
 
     digitalWrite(LED_PIN, HIGH);
@@ -64,11 +84,12 @@ void loop() {
       return;
     }
 
+    server.handleClient();
+
     // Serial.print("Weather Data: ");
     // Serial.println(myWeatherData);
-    Serial.print("Temperature: ");
-    Serial.println(myWeatherData["list"][0]["main"]["temp"]);
-
+    // Serial.print("Temperature: ");
+    // Serial.println(myWeatherData["list"][0]["main"]["temp"]);
   }
   else {
     Serial.print("WiFi Connection Lost");
