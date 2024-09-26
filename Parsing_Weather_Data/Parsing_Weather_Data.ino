@@ -7,6 +7,8 @@ const char* ssid = "";
 const char* password = "";
 const int LED_PIN = 2;
 String weatherRawData;
+const long interval = 60000;
+unsigned long prevMilli = 0;
 
 WebServer server(80);
 
@@ -25,13 +27,17 @@ void setup() {
   }
   
   Serial.print("Connected to WiFi Network");
-  Serial.print("IP address: ");
+  Serial.print("\nIP address: ");
   Serial.println(WiFi.localIP());
 
   server.on("/data", HTTP_GET, handleData);
 
+  // server.on("/", HTTP_GET, []() {
+  //   server.send(200, "text/plain", "Server is running");
+  // });
+
   server.begin();
-  Serial.print("Server Begins");
+  Serial.print("\nServer Begins");
 }
 
 String httpGETRequest(const char* weatherLink) {
@@ -58,34 +64,37 @@ String httpGETRequest(const char* weatherLink) {
 
 void handleData() {
 
-  jsonDoc["API Data"] = weatherRawData;
-
-  String weatherString;
-  serializeJson(weatherRawData, weatherString);
-
+  Serial.println("Handling /data request...");
   server.sendHeader("Content-Type", "application/json");
-  server.send(200, "application/json", weatherString);
+  server.send(200, "application/json", weatherRawData);
 }
 
 void loop() {
   
+  unsigned long currMilli = millis();
+
   if ((WiFi.status() == WL_CONNECTED)) {
 
-    digitalWrite(LED_PIN, HIGH);
+    if (currMilli - prevMilli >= interval) {
 
-    String weatherLink = "";
+      prevMilli = currMilli;
 
-    weatherRawData = httpGETRequest(weatherLink.c_str());
+      digitalWrite(LED_PIN, HIGH);
 
-    JSONVar myWeatherData = JSON.parse(weatherRawData);
+      String weatherLink = "";
 
-    if (JSON.typeof(myWeatherData) == "undefined") {
-      Serial.println("Parsing input failed!");
-      return;
+      weatherRawData = httpGETRequest(weatherLink.c_str());
+
+      JSONVar myWeatherData = JSON.parse(weatherRawData);
+
+      if (JSON.typeof(myWeatherData) == "undefined") {
+        Serial.println("Parsing input failed!");
+        return;
+      }
     }
 
     server.handleClient();
-
+    
     // Serial.print("Weather Data: ");
     // Serial.println(myWeatherData);
     // Serial.print("Temperature: ");
@@ -97,5 +106,4 @@ void loop() {
   }
 
   digitalWrite(LED_PIN, LOW);
-  delay(60000);
 }
