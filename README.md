@@ -18,3 +18,19 @@ The **RainSense-Smart-Water-Management** is a project aimed at helping farmers r
   - Monitors water tank capacity using a distance sensor.
   - Displays tank levels in the app with warnings for low or full capacity.
   - Estimates water usage and potential cost savings on water bills.
+
+## Goals
+- Reduce farming water bills by optimizing irrigation.
+- Promote the use of rainwater harvesting systems.
+- Provide a user-friendly interface for real-time monitoring and alerts.
+
+## System Components
+1. **Hardware**:
+   - Sensors: 
+     - Temperature, Humidity, and Pressure Sensors.
+     - Distance Sensor for water tank monitoring.
+   - Microcontroller: ESP32 (or similar).
+   - Rainwater collector setup (optional).
+2. **Software**:
+   - Weather API integration.
+   - Mobile app for user notifications and monitoring.
