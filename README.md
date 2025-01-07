@@ -34,3 +34,17 @@ The **RainSense-Smart-Water-Management** is a project aimed at helping farmers r
 2. **Software**:
    - Weather API integration.
    - Mobile app for user notifications and monitoring.
+
+## How It Works
+1. **Weather Data Fetching**: The app retrieves weather data (temperature, humidity, precipitation forecasts) for a user-specified location using an API.
+2. **Real-Time Monitoring**: Sensors collect local temperature, humidity, and pressure data.
+3. **Decision Making**: Based on weather forecasts and real-time data:
+   - Suggests optimal times for irrigation.
+   - Alerts users to incoming rainstorms.
+4. **Water Tank Monitoring**:
+   - Uses a distance sensor to measure tank water levels.
+   - Provides warnings for low or full water levels.
+   - Calculates water usage and savings.
+5. **User Notifications**:
+   - Sends timely updates via the app.
+   - Displays irrigation schedules, water tank status, and cost-saving estimates.
