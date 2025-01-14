@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -12,7 +13,8 @@ class WeatherApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData.dark(),
       home: MyHomePage(),
     );
   }
@@ -98,27 +100,29 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Weather App', style: TextStyle(fontSize: 24, color: Colors.black, )),
+        title: const Text('Weather App', style: TextStyle(fontSize: 24, color: Colors.white, )),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: 
+        Container(
+          constraints: const BoxConstraints.expand(),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/sunny.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+
+
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+              child: Icon(
+                CupertinoIcons.cloud,
+                color: Colors.black,
+                size: 75.0
+              ),
+            ),
             ElevatedButton(
               onPressed: () {
                 collectWeatherData();
@@ -138,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
           ],
         ),
-      ),
+      )
     );
   }
 }
