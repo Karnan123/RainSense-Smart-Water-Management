@@ -25,7 +25,7 @@ class AppBarExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Weather App', style: TextStyle(fontSize: 24, color: Colors.black, )),
+        title: const Text('Weather App1', style: TextStyle(fontSize: 24, color: Colors.black, )),
       ),
       );
   }
