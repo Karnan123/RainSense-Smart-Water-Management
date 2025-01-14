@@ -25,7 +25,7 @@ class AppBarExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Weather Test1234', style: TextStyle(fontSize: 24, color: Colors.black, )),
+        title: const Text('Weather App', style: TextStyle(fontSize: 24, color: Colors.black, )),
       ),
       );
   }
@@ -60,6 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     try {
       final response = await http.get(Uri.parse(''));
+
+      //log("Received data: $response");
 
       if (response.statusCode == 200) {
         setState(() {
@@ -96,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Weather Test', style: TextStyle(fontSize: 24, color: Colors.black, )),
+        title: const Text('Weather App', style: TextStyle(fontSize: 24, color: Colors.black, )),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -117,9 +119,15 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            ElevatedButton(
+              onPressed: () {
+                collectWeatherData();
+              }, 
+              child: const Text('Pull API Data'),
             ),
+            // const Text(
+            //   'You have pushed the button this many times:',
+            // ),
             const SizedBox(height: 20),
             if (_isWaiting == true) 
               const CircularProgressIndicator()
