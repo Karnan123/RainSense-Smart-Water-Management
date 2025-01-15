@@ -193,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
+  
 // class WeatherPullData {
 
 //   double currTemp = 0;
