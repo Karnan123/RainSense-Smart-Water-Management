@@ -15,7 +15,6 @@ class WeatherApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.dark(),
       home: MyHomePage(),
     );
   }
@@ -87,9 +86,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Weather App', style: TextStyle(fontSize: 24, color: Colors.white, )),
-      ),
       body: 
         Container(
           constraints: const BoxConstraints.expand(),
@@ -104,6 +100,19 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            //const SizedBox(height:10),
+            Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            child: Container(
+              child: const Text(
+                'RainSense Weather App',
+                style: TextStyle(
+                  fontSize: 30, 
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),),
             const SizedBox(height:20),
             Container(
               child: const Icon(
@@ -136,6 +145,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10), // Rounded corners
                   ),
+                  textStyle: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  )
                 ),
                 child: const Text(
                   'Refresh Weather Data'
