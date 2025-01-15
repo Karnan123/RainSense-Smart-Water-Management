@@ -100,24 +100,36 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            //const SizedBox(height:10),
+            const SizedBox(height:15),
             Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-            child: Container(
-              child: const Text(
-                'RainSense Weather App',
-                style: TextStyle(
-                  fontSize: 30, 
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start, // Applies stretch only to this part
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 61, 98, 108).withOpacity(0.75), // Background color
+                      borderRadius: BorderRadius.circular(10), // Rounded corners
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                    child: const Text(
+                      'RainSense Forecast',
+                      style: TextStyle(
+                        fontSize: 30, 
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),),
+            ),
+            
             const SizedBox(height:20),
             Container(
               child: const Icon(
                 CupertinoIcons.cloud,
-                color: Colors.white,
+                color: Colors.black,
                 size: 100.0
               ),
             ),
@@ -127,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 '12°',
                 style: TextStyle(
                   fontSize: 80, 
-                  color: Colors.white,
+                  color: Colors.black,
                   letterSpacing: -5,
                 ),
               ),
@@ -167,10 +179,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ListView(
                 padding: const EdgeInsets.all(16.0), // Add spacing inside the list
                 children: const [
-                  WeatherRow(day: "Mon", weather: "Rainy", degree: "+20° / 14 mm"),
-                  WeatherRow(day: "Tue", weather: "Rainy", degree: "+22° / 9 mm"),
-                  WeatherRow(day: "Wed", weather: "Storm", degree: "+19° / 5 mm"),
-                  WeatherRow(day: "Thu", weather: "Snow", degree: "+18° / 6 mm"),
+                  WeatherRow(day: "Mon", weather: "Rainy", degree: "+13° / 5 mm"),
+                  WeatherRow(day: "Tue", weather: "Rainy", degree: "+7° / 9 mm"),
+                  WeatherRow(day: "Wed", weather: "Storm", degree: "+8° / 14 mm"),
+                  WeatherRow(day: "Thu", weather: "Snow", degree: "-11° / 6 mm"),
                   // WeatherRow(day: "Fri", weather: "Thunder", degree: "+23° / 16 mm"),
                 ],
               ),
@@ -181,3 +193,33 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+// class WeatherPullData {
+
+//   double currTemp = 0;
+//   int currCond = 0;
+
+//   Future<void> getWeatherData() async {
+//     Response resp = await get(
+//       ''
+//     );
+
+//     if (resp.statusCode == 200) {
+//       String data = resp.body;
+//       var currentWeather = jsonDecode(data);
+
+//       try {
+//         currTemp = currentWeather['main']['temp'];
+//         currCond = currentWeather['weather'][0]['id'];
+//       } 
+      
+//       catch (e) {
+//         print(e);
+//       }
+//     }
+
+//     else {
+//       print('Error data was not pulled');
+//     }
+//   }
+// }
