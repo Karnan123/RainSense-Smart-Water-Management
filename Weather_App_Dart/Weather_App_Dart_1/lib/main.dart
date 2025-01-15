@@ -114,32 +114,65 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height:20),
             Container(
               child: Icon(
                 CupertinoIcons.cloud,
                 color: Colors.black,
-                size: 75.0
+                size: 100.0
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                collectWeatherData();
-              }, 
-              child: const Text('Pull API Data'),
+            const SizedBox(height:15),
+            Center(
+              child: Text(
+                '12°',
+                style: TextStyle(
+                  fontSize: 80, 
+                  color: Colors.black,
+                  letterSpacing: -5,
+                ),
+              ),
             ),
-            // const Text(
-            //   'You have pushed the button this many times:',
-            // ),
-            const SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  collectWeatherData();
+                },
+                style: ElevatedButton.styleFrom(
+                  fixedSize: const Size(200, 50),
+                  minimumSize: const Size(150, 50), // Minimum width and height
+                  backgroundColor: Colors.black.withOpacity(0.75), // Background color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10), // Rounded corners
+                  ),
+                ),
+                child: const Text(
+                  'Refresh Weather Data'
+                ),
+              ),
+            ),
             if (_isWaiting == true) 
               const CircularProgressIndicator()
             else if (_response.isNotEmpty)
-              Text(
-                'Response: $_response',
-                style: const TextStyle(fontSize: 20),
-              ),
+            Text(
+              'Response: $_response',
+              style: const TextStyle(fontSize: 20),
+            ),
+            const SizedBox(height:20),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Container(
+                  height: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlue.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(10),
+                  )
+                )
+              )
+            )
           ],
         ),
       )
