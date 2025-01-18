@@ -42,39 +42,65 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _isWaiting = false;
   String _response = '';
 
+  double temp = 0;
+  int currCond = 0;
+  double rainVol = 0;
+
+  Icon weatherIcon = Icon(Icons.error);
+  AssetImage backgroundImage = AssetImage('assets/sunny.png');
+
   Future<void> collectWeatherData() async {
     setState(() {
       _isWaiting = true;
     });
 
-    try {
-      final response = await http.get(Uri.parse(''));
+    // try {
+    //   final response = await http.get(Uri.parse(''));
 
-      //log("Received data: $response");
+    //   //log("Received data: $response");
 
-      if (response.statusCode == 200) {
-        setState(() {
-          _response = json.decode(response.body)['message'];
-          _isWaiting = false;
-        });
-      }
+    //   if (response.statusCode == 200) {
+    //     setState(() {
+    //       _response = json.decode(response.body)['message'];
+    //       _isWaiting = false;
+    //     });
+    //   }
 
-      else {
-        setState(() {
-          _response = 'Failed to collect weather data';
-          _isWaiting = false;
-        });
-      }
-    } 
+    //   else {
+    //     setState(() {
+    //       _response = 'Failed to collect weather data';
+    //       _isWaiting = false;
+    //     });
+    //   }
+    // } 
     
-    catch (e) {
-      setState(() {
-        _response = 'Failed to collect weather data';
-        _isWaiting = false;
-      });
-    }
+    // catch (e) {
+    //   setState(() {
+    //     _response = 'Failed to collect weather data';
+    //     _isWaiting = false;
+    //   });
+    // }
+
+    WeatherPullData weatherData = WeatherPullData();
+    await weatherData.getWeatherData();
+
+    setState(() {
+      temp = weatherData.currTemp;
+      currCond = weatherData.currCond;
+      rainVol = weatherData.rainVol;
+      DisplayWeather displayWeather = getDisplayWeather(currCond);
+      weatherIcon = displayWeather.weatherIcon;
+      backgroundImage = displayWeather.weatherImage;
+      _isWaiting = false;
+    });
 
     _isWaiting = false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    collectWeatherData();
   }
 
   @override
@@ -89,9 +115,9 @@ class _MyHomePageState extends State<MyHomePage> {
       body: 
         Container(
           constraints: const BoxConstraints.expand(),
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/sunny.png'),
+              image: backgroundImage,
               fit: BoxFit.cover,
             ),
           ),
@@ -127,16 +153,12 @@ class _MyHomePageState extends State<MyHomePage> {
             
             const SizedBox(height:20),
             Container(
-              child: const Icon(
-                CupertinoIcons.cloud,
-                color: Colors.black,
-                size: 100.0
-              ),
+              child: weatherIcon,
             ),
             const SizedBox(height:15),
             Center(
               child: Text(
-                '12°',
+                '${temp.toStringAsFixed(0)}°',
                 style: TextStyle(
                   fontSize: 80, 
                   color: Colors.black,
@@ -145,28 +167,38 @@ class _MyHomePageState extends State<MyHomePage> {
               ),  
             ),
             Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  collectWeatherData();  
-                },
-                style: ElevatedButton.styleFrom(
-                  fixedSize: const Size(200, 50),
-                  minimumSize: const Size(150, 50), // Minimum width and height
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.black.withOpacity(0.75), // Background color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // Rounded corners
-                  ),
-                  textStyle: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  )
+              child: Text(
+                '$rainVol mm',
+                style: TextStyle(
+                  fontSize: 40, 
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
-                child: const Text(
-                  'Refresh Weather Data'
-                ),
-              ),
+              ),  
             ),
+            // Center(
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //       collectWeatherData();  
+            //     },
+            //     style: ElevatedButton.styleFrom(
+            //       fixedSize: const Size(200, 50),
+            //       minimumSize: const Size(150, 50), // Minimum width and height
+            //       foregroundColor: Colors.white,
+            //       backgroundColor: Colors.black.withOpacity(0.75), // Background color
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(10), // Rounded corners
+            //       ),
+            //       textStyle: const TextStyle(
+            //         fontSize: 15,
+            //         fontWeight: FontWeight.bold,
+            //       )
+            //     ),
+            //     child: const Text(
+            //       'Refresh Weather Data'
+            //     ),
+            //   ),
+            // ),
             if (_isWaiting == true) 
               const CircularProgressIndicator()
             else if (_response.isNotEmpty)
@@ -194,32 +226,79 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
   
-// class WeatherPullData {
+class WeatherPullData {
 
-//   double currTemp = 0;
-//   int currCond = 0;
+  double currTemp = 0;
+  int currCond = 0;
+  double rainVol = 0;
 
-//   Future<void> getWeatherData() async {
-//     Response resp = await get(
-//       ''
-//     );
+  String apiId = '';
 
-//     if (resp.statusCode == 200) {
-//       String data = resp.body;
-//       var currentWeather = jsonDecode(data);
+  Future<void> getWeatherData() async {
+    http.Response resp = await http.get(
+      Uri.parse('http://api.openweathermap.org/data/2.5/weather?lat=43.89898760416283&lon=-78.94788446422257&appid=$apiId&units=metric')
+    );
 
-//       try {
-//         currTemp = currentWeather['main']['temp'];
-//         currCond = currentWeather['weather'][0]['id'];
-//       } 
+    if (resp.statusCode == 200) {
+      String data = resp.body;
+      var currentWeather = jsonDecode(data);
+
+      try {
+        currTemp = currentWeather['main']['temp'];
+        currCond = currentWeather['weather'][0]['id'];
+        rainVol = currentWeather['rain']['1h'];
+      } 
       
-//       catch (e) {
-//         print(e);
-//       }
-//     }
+      catch (e) {
+        print(e);
+      }
+    }
 
-//     else {
-//       print('Error data was not pulled');
-//     }
-//   }
-// }
+    else {
+      print('Error data was not pulled');
+    }
+  }
+}
+
+class DisplayWeather {
+  Icon weatherIcon;
+  AssetImage weatherImage;
+
+  DisplayWeather({required this.weatherIcon, required this.weatherImage});
+}
+
+DisplayWeather getDisplayWeather(int currCond) {
+
+    var currTime = new DateTime.now();
+
+    if (currCond < 600) {
+      return DisplayWeather(
+        weatherIcon: const Icon(
+          CupertinoIcons.cloud_rain,
+          color: Colors.black,
+          size: 100.0
+        ),
+        weatherImage: const AssetImage('assets/cloudy.png'),
+      );
+    } 
+    else if (currTime.hour >= 17) {
+      return DisplayWeather(
+        weatherIcon: const Icon(
+          CupertinoIcons.moon,
+          color: Colors.black,
+          size: 100.0
+        ),
+        weatherImage: const AssetImage('assets/night.png'),
+      );
+    }
+    else {
+      return DisplayWeather(
+        weatherIcon: const Icon(
+          CupertinoIcons.sun_max,
+          color: Colors.black,
+          size: 100.0
+        ),
+        weatherImage: const AssetImage('assets/sunny.png'),
+      );
+    }
+}
