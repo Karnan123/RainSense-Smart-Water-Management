@@ -14,7 +14,7 @@ class WeatherPullData {
 
   List<Map<String, dynamic>> hourlyForecast = [];
 
-  String apiId = '';
+  String apiId = '8bad9ee0580bfd7f63cd45c54a2050bf';
 
   Future<void> getWeatherData() async {
     http.Response resp = await http.get(
@@ -51,7 +51,9 @@ class WeatherPullData {
           hourlyForecast.add({
             'dateTime': formattedTime,
             'weather': currCondDesc,
-            'degree': '${currTemp.toStringAsFixed(1)}°C '
+            'degree': '${currTemp.toStringAsFixed(0)}° ',
+            'weatherNum': currCond.toStringAsFixed(1),
+            'rain': rainVol.toStringAsFixed(1)
           });
           // / ${rainVol.toStringAsFixed(1)} mm
         }

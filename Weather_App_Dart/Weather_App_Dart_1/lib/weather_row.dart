@@ -5,16 +5,16 @@ class WeatherRow extends StatelessWidget {
   final String dateTime;
   final String weather;
   final String degree;
-  //final String weatherNum;
-  // final String rain;
+  final String weatherNum;
+  final String rain;
 
   const WeatherRow({
     Key? key,
     required this.dateTime,
     required this.weather,
     required this.degree,
-    //required this.weatherNum,
-    // required this.rain
+    required this.weatherNum,
+    required this.rain
   }) : super(key: key);
 
   @override
@@ -51,13 +51,13 @@ class WeatherRow extends StatelessWidget {
                   Icon(
                     CupertinoIcons.cloud,
                     color: Colors.white,
-                    size: 40
+                    size: 30
                   ),
                   const SizedBox(width: 8), // Spacing between icon and text
                   Text(
                     weather,
                     style: const TextStyle(
-                      fontSize: 30,
+                      fontSize: 20,
                       color: Colors.white,
                     ),
                   ),
@@ -65,7 +65,7 @@ class WeatherRow extends StatelessWidget {
               ),
               // Temperature Text
               Text(
-                degree,
+                '$degree / $rain mm',
                 style: const TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,

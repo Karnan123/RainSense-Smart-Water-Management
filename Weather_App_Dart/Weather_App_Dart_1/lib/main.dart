@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _response = '';
 
   String temp = '';
-  int currCond = 0;
+  String currCond = '';
   String rainVol = '';
   String currCondDesc = '';
 
@@ -82,10 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
       forecastData = weatherData.hourlyForecast;
 
       temp = forecastData[0]['degree'];
-      //currCond = int.parse(forecastData[0]['weather'].toString());
-      //rainVol = 
+      currCond = forecastData[0]['weatherNum'];
+      String test = currCond.substring(0, currCond.length - 2);
+      int test2 = int.parse(test);
+      rainVol = forecastData[0]['rain'];
 
-      DisplayWeather displayWeather = getDisplayWeather(currCond);
+      DisplayWeather displayWeather = getDisplayWeather(test2);
       weatherIcon = displayWeather.weatherIcon;
       backgroundImage = displayWeather.weatherImage;
 
@@ -188,6 +190,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           dateTime: item['dateTime'],
                           weather: item['weather'],
                           degree: item['degree'],
+                          weatherNum: item['weatherNum'],
+                          rain: item['rain']
                         );
                       },
                     ),
