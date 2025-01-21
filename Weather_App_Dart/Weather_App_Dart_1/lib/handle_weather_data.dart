@@ -1,19 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
 
 class WeatherPullData {
 
+  int timeStamp = 0;
   double currTemp = 0;
   int currCond = 0;
   double rainVol = 0;
+  String currCondDesc = '';
+
+  List<Map<String, dynamic>> hourlyForecast = [];
 
   String apiId = '';
 
   Future<void> getWeatherData() async {
     http.Response resp = await http.get(
-      Uri.parse('http://api.openweathermap.org/data/2.5/weather?lat=43.89898760416283&lon=-78.94788446422257&appid=$apiId&units=metric')
+      Uri.parse('http://api.openweathermap.org/data/2.5/forecast?lat=43.89898760416283&lon=-78.94788446422257&appid=$apiId&units=metric')
     );
 
     if (resp.statusCode == 200) {
@@ -21,9 +26,35 @@ class WeatherPullData {
       var currentWeather = jsonDecode(data);
 
       try {
-        currTemp = currentWeather['main']['temp'];
-        currCond = currentWeather['weather'][0]['id'];
-        rainVol = currentWeather['rain']['1h'];
+        List<dynamic> hourlyWeather = currentWeather['list'];
+
+        hourlyForecast.clear();
+
+        for (int i = 0; i < 12; i++) {
+          var weatherItem = hourlyWeather[i];
+
+          timeStamp = weatherItem['dt'];
+          currTemp = weatherItem['main']['temp'];
+          currCond = weatherItem['weather'][0]['id'];
+          rainVol = weatherItem.containsKey('rain') && weatherItem['rain'] != null
+            ? weatherItem['rain']['3h'] ?? 0.0
+            : 0.0;
+          currCondDesc = weatherItem['weather'][0]['description'];
+
+          DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+          String formattedTime = DateFormat('h a').format(dateTime).toLowerCase();
+
+          // currTemp = currentWeather['main']['temp'];
+          // currCond = currentWeather['weather'][0]['id'];
+          // rainVol = currentWeather['rain']['1h'];
+
+          hourlyForecast.add({
+            'dateTime': formattedTime,
+            'weather': currCondDesc,
+            'degree': '${currTemp.toStringAsFixed(1)}°C '
+          });
+          // / ${rainVol.toStringAsFixed(1)} mm
+        }
       } 
       
       catch (e) {

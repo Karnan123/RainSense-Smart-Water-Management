@@ -1,9 +1,6 @@
-//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'weather_row.dart';
 import 'handle_weather_data.dart';
-//import 'package:http/http.dart' as http;
-//import 'dart:convert';
 
 void main() {
   runApp(const WeatherApp());
@@ -24,28 +21,20 @@ class WeatherApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  //final String title;
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   bool _isWaiting = false;
+  List<Map<String, dynamic>> forecastData = [];
+
   String _response = '';
 
-  double temp = 0;
+  String temp = '';
   int currCond = 0;
-  double rainVol = 0;
+  String rainVol = '';
+  String currCondDesc = '';
 
   Icon weatherIcon = Icon(Icons.error);
   AssetImage backgroundImage = AssetImage('assets/sunny.png');
@@ -86,12 +75,20 @@ class _MyHomePageState extends State<MyHomePage> {
     await weatherData.getWeatherData();
 
     setState(() {
-      temp = weatherData.currTemp;
-      currCond = weatherData.currCond;
-      rainVol = weatherData.rainVol;
+      // temp = weatherData.currTemp;
+      // currCond = weatherData.currCond;
+      // rainVol = weatherData.rainVol;
+
+      forecastData = weatherData.hourlyForecast;
+
+      temp = forecastData[0]['degree'];
+      //currCond = int.parse(forecastData[0]['weather'].toString());
+      //rainVol = 
+
       DisplayWeather displayWeather = getDisplayWeather(currCond);
       weatherIcon = displayWeather.weatherIcon;
       backgroundImage = displayWeather.weatherImage;
+
       _isWaiting = false;
     });
 
@@ -106,12 +103,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       body: 
         Container(
@@ -159,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(height:15),
             Center(
               child: Text(
-                '${temp.toStringAsFixed(0)}°',
+                '${temp}', //
                 style: TextStyle(
                   fontSize: 80, 
                   color: Colors.black,
@@ -177,29 +168,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),  
             ),
-            // Center(
-            //   child: ElevatedButton(
-            //     onPressed: () {
-            //       collectWeatherData();  
-            //     },
-            //     style: ElevatedButton.styleFrom(
-            //       fixedSize: const Size(200, 50),
-            //       minimumSize: const Size(150, 50), // Minimum width and height
-            //       foregroundColor: Colors.white,
-            //       backgroundColor: Colors.black.withOpacity(0.75), // Background color
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(10), // Rounded corners
-            //       ),
-            //       textStyle: const TextStyle(
-            //         fontSize: 15,
-            //         fontWeight: FontWeight.bold,
-            //       )
-            //     ),
-            //     child: const Text(
-            //       'Refresh Weather Data'
-            //     ),
-            //   ),
-            // ),
             if (_isWaiting == true) 
               const CircularProgressIndicator()
             else if (_response.isNotEmpty)
@@ -209,16 +177,20 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height:20),
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.all(16.0), // Add spacing inside the list
-                children: const [
-                  WeatherRow(day: "Mon", weather: "Rainy", degree: "+13° / 5 mm"),
-                  WeatherRow(day: "Tue", weather: "Rainy", degree: "+7° / 9 mm"),
-                  WeatherRow(day: "Wed", weather: "Storm", degree: "+8° / 14 mm"),
-                  WeatherRow(day: "Thu", weather: "Snow", degree: "-11° / 6 mm"),
-                  // WeatherRow(day: "Fri", weather: "Thunder", degree: "+23° / 16 mm"),
-                ],
-              ),
+              child: forecastData.isEmpty
+                  ? Center(child: Text("No forecast data available", style: TextStyle(fontSize: 18)))
+                  : ListView.builder(
+                      padding: const EdgeInsets.all(16.0),
+                      itemCount: forecastData.length,
+                      itemBuilder: (context, index) {
+                        final item = forecastData[index];
+                        return WeatherRow(
+                          dateTime: item['dateTime'],
+                          weather: item['weather'],
+                          degree: item['degree'],
+                        );
+                      },
+                    ),
             )
           ],
         ),

@@ -2,15 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class WeatherRow extends StatelessWidget {
-  final String day;
+  final String dateTime;
   final String weather;
   final String degree;
+  //final String weatherNum;
+  // final String rain;
 
   const WeatherRow({
     Key? key,
-    required this.day,
+    required this.dateTime,
     required this.weather,
     required this.degree,
+    //required this.weatherNum,
+    // required this.rain
   }) : super(key: key);
 
   @override
@@ -34,7 +38,7 @@ class WeatherRow extends StatelessWidget {
             children: [
               // Day Text
               Text(
-                day,
+                dateTime,
                 style: const TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
