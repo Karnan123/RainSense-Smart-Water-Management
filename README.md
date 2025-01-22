@@ -51,8 +51,8 @@ The **RainSense-Smart-Water-Management** is a project aimed at helping farmers r
 
 
 <p align="center">
-  <img src="https://github.com/Karnan123/RainSense-Smart-Water-Management/blob/main/Weather_App_Pictures/Weather_App_Cloudy.png?raw=true" width="300" />
-  <img src="https://github.com/Karnan123/RainSense-Smart-Water-Management/blob/main/Weather_App_Pictures/Weather_App_Night.png?raw=true" width="300" />
-  <img src="https://github.com/Karnan123/RainSense-Smart-Water-Management/blob/main/Weather_App_Pictures/Weather_App_Sunny.png?raw=true" width="300" />
+  <img src="https://github.com/Karnan123/RainSense-Smart-Water-Management/blob/main/Weather_App_Pictures/Weather_App_Cloudy.png?raw=true" width="200" />
+  <img src="https://github.com/Karnan123/RainSense-Smart-Water-Management/blob/main/Weather_App_Pictures/Weather_App_Night.png?raw=true" width="200" />
+  <img src="https://github.com/Karnan123/RainSense-Smart-Water-Management/blob/main/Weather_App_Pictures/Weather_App_Sunny.png?raw=true" width="200" />
 </p>
 
