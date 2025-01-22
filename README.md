@@ -50,7 +50,9 @@ The **RainSense-Smart-Water-Management** is a project aimed at helping farmers r
    - Displays irrigation schedules, water tank status, and cost-saving estimates.
 
 
-![image](https://github.com/user-attachments/assets/52ced88a-3558-4b31-8304-254c0bc02a82)
-![image](https://github.com/user-attachments/assets/14f9675b-7422-4982-8732-28ab52d6cc4f)
-![image](https://github.com/user-attachments/assets/7a34ef6f-492e-4e6a-b75b-8fa125e42843)
+<p align="center">
+  <img src="https://github.com/Karnan123/RainSense-Smart-Water-Management/blob/main/Weather_App_Pictures/Weather_App_Cloudy.png?raw=true" width="300" />
+  <img src="https://github.com/Karnan123/RainSense-Smart-Water-Management/blob/main/Weather_App_Pictures/Weather_App_Night.png?raw=true" width="300" />
+  <img src="https://github.com/Karnan123/RainSense-Smart-Water-Management/blob/main/Weather_App_Pictures/Weather_App_Sunny.png?raw=true" width="300" />
+</p>
 
