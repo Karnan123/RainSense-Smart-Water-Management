@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'handle_weather_data.dart';
 
 class WeatherRow extends StatelessWidget {
   final String dateTime;
   final String weather;
   final String degree;
   final String weatherNum;
+  final Icon weatherListIcon;
   final String rain;
 
   const WeatherRow({
@@ -14,11 +16,13 @@ class WeatherRow extends StatelessWidget {
     required this.weather,
     required this.degree,
     required this.weatherNum,
+    required this.weatherListIcon,
     required this.rain
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Padding(
@@ -48,11 +52,7 @@ class WeatherRow extends StatelessWidget {
               // Weather Forecast Icon and Text
               Row(
                 children: [
-                  Icon(
-                    CupertinoIcons.cloud,
-                    color: Colors.white,
-                    size: 30
-                  ),
+                  weatherListIcon,
                   const SizedBox(width: 8), // Spacing between icon and text
                   Text(
                     weather,

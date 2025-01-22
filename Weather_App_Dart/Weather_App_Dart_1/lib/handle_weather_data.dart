@@ -12,6 +12,8 @@ class WeatherPullData {
   double rainVol = 0;
   String currCondDesc = '';
 
+  Icon weatherListIcon = Icon(Icons.error);
+
   List<Map<String, dynamic>> hourlyForecast = [];
 
   String apiId = '8bad9ee0580bfd7f63cd45c54a2050bf';
@@ -44,16 +46,16 @@ class WeatherPullData {
           DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
           String formattedTime = DateFormat('h a').format(dateTime).toLowerCase();
 
-          // currTemp = currentWeather['main']['temp'];
-          // currCond = currentWeather['weather'][0]['id'];
-          // rainVol = currentWeather['rain']['1h'];
+          //DisplayWeather displayWeather = getDisplayListIcon(currCond);
+          //weatherListIcon = displayWeather.weatherIcon;
 
           hourlyForecast.add({
             'dateTime': formattedTime,
             'weather': currCondDesc,
             'degree': '${currTemp.toStringAsFixed(0)}° ',
             'weatherNum': currCond.toStringAsFixed(1),
-            'rain': rainVol.toStringAsFixed(1)
+            'weatherListIcon': getDisplayListIcon(currCond).weatherIcon,
+            'rain': rainVol.toStringAsFixed(0)
           });
           // / ${rainVol.toStringAsFixed(1)} mm
         }
@@ -86,29 +88,129 @@ DisplayWeather getDisplayWeather(int currCond) {
         weatherIcon: const Icon(
           CupertinoIcons.cloud_rain,
           color: Colors.black,
-          size: 100.0
+          size: 100
+        ),
+        weatherImage: const AssetImage('assets/cloudy.png'),
+      );
+    }
+    else if (currCond >= 600 && currCond < 700) {
+      return DisplayWeather(
+        weatherIcon: const Icon(
+          CupertinoIcons.cloud_snow,
+          color: Colors.black,
+          size: 100
         ),
         weatherImage: const AssetImage('assets/cloudy.png'),
       );
     } 
-    else if (currTime.hour >= 17) {
+    else if (currCond >= 700 && currCond < 800) {
       return DisplayWeather(
         weatherIcon: const Icon(
-          CupertinoIcons.moon,
+          CupertinoIcons.cloud_fog,
           color: Colors.black,
-          size: 100.0
+          size: 100
         ),
-        weatherImage: const AssetImage('assets/night.png'),
+        weatherImage: const AssetImage('assets/cloudy.png'),
       );
+    }
+    else if (currCond == 800) {
+      if (currTime.hour >= 17 && currTime.hour < 7) {
+        return DisplayWeather(
+          weatherIcon: const Icon(
+            CupertinoIcons.moon,
+            color: Colors.black,
+            size: 100
+          ),
+          weatherImage: const AssetImage('assets/night.png'),
+        );
+      }
+      else {
+        return DisplayWeather(
+          weatherIcon: const Icon(
+            CupertinoIcons.sun_max,
+            color: Colors.black,
+            size: 100
+          ),
+          weatherImage: const AssetImage('assets/sunny.png'),
+        );
+      }
     }
     else {
       return DisplayWeather(
         weatherIcon: const Icon(
-          CupertinoIcons.sun_max,
+          CupertinoIcons.cloud,
           color: Colors.black,
-          size: 100.0
+          size: 100
         ),
-        weatherImage: const AssetImage('assets/sunny.png'),
+        weatherImage: const AssetImage('assets/cloudy.png'),
+      );
+    }
+}
+
+DisplayWeather getDisplayListIcon(int currCond) {
+
+    var currTime = new DateTime.now();
+
+    if (currCond < 600) {
+      return DisplayWeather(
+        weatherIcon: const Icon(
+          CupertinoIcons.cloud_rain,
+          color: Colors.white,
+          size: 30
+        ),
+        weatherImage: const AssetImage('assets/cloudy.png'),
+      );
+    }
+    else if (currCond >= 600 && currCond < 700) {
+      return DisplayWeather(
+        weatherIcon: const Icon(
+          CupertinoIcons.cloud_snow,
+          color: Colors.white,
+          size: 30
+        ),
+        weatherImage: const AssetImage('assets/cloudy.png'),
+      );
+    } 
+    else if (currCond >= 700 && currCond < 800) {
+      return DisplayWeather(
+        weatherIcon: const Icon(
+          CupertinoIcons.cloud_fog,
+          color: Colors.white,
+          size: 30
+        ),
+        weatherImage: const AssetImage('assets/cloudy.png'),
+      );
+    }
+    else if (currCond == 800) {
+      if (currTime.hour >= 17 && currTime.hour < 7) {
+        return DisplayWeather(
+          weatherIcon: const Icon(
+            CupertinoIcons.moon,
+            color: Colors.white,
+            size: 30
+          ),
+          weatherImage: const AssetImage('assets/night.png'),
+        );
+      }
+      else {
+        return DisplayWeather(
+          weatherIcon: const Icon(
+            CupertinoIcons.sun_max,
+            color: Colors.white,
+            size: 30
+          ),
+          weatherImage: const AssetImage('assets/sunny.png'),
+        );
+      }
+    }
+    else {
+      return DisplayWeather(
+        weatherIcon: const Icon(
+          CupertinoIcons.cloud,
+          color: Colors.white,
+          size: 30
+        ),
+        weatherImage: const AssetImage('assets/cloudy.png'),
       );
     }
 }

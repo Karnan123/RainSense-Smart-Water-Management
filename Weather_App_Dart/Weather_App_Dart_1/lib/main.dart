@@ -75,19 +75,13 @@ class _MyHomePageState extends State<MyHomePage> {
     await weatherData.getWeatherData();
 
     setState(() {
-      // temp = weatherData.currTemp;
-      // currCond = weatherData.currCond;
-      // rainVol = weatherData.rainVol;
-
       forecastData = weatherData.hourlyForecast;
 
       temp = forecastData[0]['degree'];
       currCond = forecastData[0]['weatherNum'];
-      String test = currCond.substring(0, currCond.length - 2);
-      int test2 = int.parse(test);
       rainVol = forecastData[0]['rain'];
 
-      DisplayWeather displayWeather = getDisplayWeather(test2);
+      DisplayWeather displayWeather = getDisplayWeather(int.parse(currCond.substring(0, currCond.length - 2)));
       weatherIcon = displayWeather.weatherIcon;
       backgroundImage = displayWeather.weatherImage;
 
@@ -191,6 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           weather: item['weather'],
                           degree: item['degree'],
                           weatherNum: item['weatherNum'],
+                          weatherListIcon: item['weatherListIcon'],
                           rain: item['rain']
                         );
                       },
