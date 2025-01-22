@@ -51,4 +51,6 @@ The **RainSense-Smart-Water-Management** is a project aimed at helping farmers r
 
 
 ![image](https://github.com/user-attachments/assets/52ced88a-3558-4b31-8304-254c0bc02a82)
+![image](https://github.com/user-attachments/assets/14f9675b-7422-4982-8732-28ab52d6cc4f)
+![image](https://github.com/user-attachments/assets/7a34ef6f-492e-4e6a-b75b-8fa125e42843)
 
